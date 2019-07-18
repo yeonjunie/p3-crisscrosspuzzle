@@ -28,11 +28,12 @@
     var paintingStauts = false;
     paper.setup(canvas);
     var tool = new paper.Tool();
+        //MouseDown and MouseMove and MouseUp is used to draw the line TiancaishaonianHWK
         tool.onMouseDown = function(event)
         {
           paintingStauts = true;
-          startx = event.point.x
-          starty = event.point.y
+          startx = event.point.x;
+          starty = event.point.y;
         }
         tool.onMouseMove = function(event)
         {
@@ -43,6 +44,16 @@
           context.lineTo(point.x, point.y);
           context.lineWidth = 1;
           context.stroke();
+            var abc = 
+                {
+                  status:paintingStauts,
+                  x1:startx,
+                  y1:starty,
+                  x2:point.x,
+                  y2:point.y
+                }
+            var a = JSON.stringify(abc);
+            socket.send(a);
           startx = point.x
           starty = point.y
           }
@@ -53,10 +64,44 @@
         }
     // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
-
-    // var socket = new WebSocket(
-    //     'wss://<your url here>/ws/draw');
-
+//     let gameObj = 
+//        {
+//     // 当前是否在绘图
+//     isDrawing: false,
+//     // 绘制下一条线的起点
+//     startX: 0,
+//     startY: 0,
+//      endX:0,
+//       endy:0
+//        }
+    var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
+//       function sendCanvas ()
+//       {
+//          var canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
+//          var data = { image: canvasContents, date: Date.now() };
+//          var string = JSON.stringify(data);
+//          socket.send(string);
+//       }
+    socket.onmessage = function(receivedMessage) 
+      {
+    
+          var data = JSON.parse(receivedMessage.data);
+      context.moveTo(data.x1,data.y1);
+      context.lineTo(data.x2,data.y2);
+      context.stroke();
+//         console.log(data);
+        // do something when you receive a message
+      };
+    socket.onopen = function(event)
+      {
+       // sendCanvas();
+      }
+        
+    // notify console if socket closes unexpectedly
+    socket.onclose = function(e) 
+      {
+      console.error('Chat socket closed unexpectedly');
+      };
 
 </script>
 </html>
