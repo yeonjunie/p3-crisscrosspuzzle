@@ -22,9 +22,35 @@
 
     // setting up the canvas and one paper tool
     var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var startx;
+    var starty;
+    var paintingStauts = false;
     paper.setup(canvas);
     var tool = new paper.Tool();
-
+        tool.onMouseDown = function(event)
+        {
+          paintingStauts = true;
+          startx = event.point.x
+          starty = event.point.y
+        }
+        tool.onMouseMove = function(event)
+        {
+          if(paintingStauts)
+          {
+          point = event.point;
+          context.moveTo(startx, starty);
+          context.lineTo(point.x, point.y);
+          context.lineWidth = 1;
+          context.stroke();
+          startx = point.x
+          starty = point.y
+          }
+         }
+        tool.onMouseUp = function(event)
+        {
+          paintingStauts = false;
+        }
     // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
 
