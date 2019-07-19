@@ -31,8 +31,7 @@
     paper.setup(canvas);
     var tool = new paper.Tool();
         tool.onMouseDown = function(event)
-        {
-          alert(url);
+        { 
           paintingStauts = true;
           startx = event.point.x;
           starty = event.point.y;
@@ -102,6 +101,40 @@
     var g = Math.floor(Math.random() * 256); //随机生成256以内g值
     var b = Math.floor(Math.random() * 256); //随机生成256以内b值
     return `rgb(${r},${g},${b})`; //返回rgb(r,g,b)格式颜色
-}
+    }
+    //2 assignment
+  var currhandle=0;//判断操作是否完成
+    if(window.DeviceMotionEvent){
+        var speed = 15;  
+        var x = y = z = lastX = lastY = lastZ = 0;  
+        window.addEventListener('devicemotion', function(){  
+            var acceleration =event.accelerationIncludingGravity;  
+            x = acceleration.x;  
+            y = acceleration.y;  
+            z = acceleration.z;
+            if(Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed || Math.abs(z-lastZ) > speed+10) {  
+            	if(currhandle==0){
+            		setbegin();//摇一摇事件触发后执行操作
+            		currhandle=0;
+            	}	
+            }  
+            lastX = x;  
+            lastY = y;  
+            lastZ = z;
+        }, false);  
+    }else{
+    	alert("您的设备不支持重力感应事件！");
+    }
+    function setbegin(){//开始操作
+    	context.clearRect(0, 0, canvas.width, canvas.height);
+      alert("123");
+    	currhandle=0;
+    }   
+  
+  function clearCanvas()  
+{  
+   
+    context.clearRect(0,0,c.width,c.height);  
+}  
 </script>
 </html>
