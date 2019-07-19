@@ -76,7 +76,7 @@
     
     socket.onmessage = function(receivedMessage) 
       {
-      if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/?size=large'){
+      if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw'){
       context.beginPath();
       var data = JSON.parse(receivedMessage.data);
       context.moveTo(data.x1,data.y1);
@@ -103,7 +103,7 @@
     return `rgb(${r},${g},${b})`; //返回rgb(r,g,b)格式颜色
     }
     //2 assignment
-  var currhandle=0;//判断操作是否完成
+    var currhandle=0;//判断操作是否完成
     if(window.DeviceMotionEvent){
         var speed = 15;  
         var x = y = z = lastX = lastY = lastZ = 0;  
@@ -115,7 +115,7 @@
             if(Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed || Math.abs(z-lastZ) > speed+10) {  
             	if(currhandle==0){
             		setbegin();//摇一摇事件触发后执行操作
-            		currhandle=0;
+            		//currhandle=0;
             	}	
             }  
             lastX = x;  
@@ -125,16 +125,13 @@
     }else{
     	alert("您的设备不支持重力感应事件！");
     }
-    function setbegin(){//开始操作
-    	context.clearRect(0, 0, canvas.width, canvas.height);
-      alert("123");
-    	currhandle=0;
-    }   
-  
-  function clearCanvas()  
-{  
+    $(document).ready(()=>{
+       window.onorientationchange = function() {
+         alert("123");
+    //  console.log("the orientation of the device is now " + screen.orientation.angle);
+};
+    });
    
-    context.clearRect(0,0,c.width,c.height);  
-}  
+
 </script>
 </html>
