@@ -76,13 +76,14 @@
     
     socket.onmessage = function(receivedMessage) 
       {
-      if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw'){
+      //if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw'){
       context.beginPath();
       var data = JSON.parse(receivedMessage.data);
       context.moveTo(data.x1,data.y1);
       context.lineTo(data.x2,data.y2);
       context.strokeStyle = data.color;
-      context.stroke();}
+      context.stroke();
+      //}
         // do something when you receive a message
       };
     socket.onopen = function(event)
@@ -126,9 +127,14 @@
     }else{
     	alert("您的设备不支持重力感应事件！");
     }
-  
+ window.addEventListener('deviceorientation',(event)=>
+{
+   if(event.gamma>80){
+    randomcolor = 'rgb(122,122,122)';
+   context.strokeStyle = randomcolor;
+   }
+ });
   //2b assignment
-    
    
 
 </script>
