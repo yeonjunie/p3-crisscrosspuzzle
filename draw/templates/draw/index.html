@@ -26,11 +26,13 @@
     var startx;
     var starty;
     var paintingStauts = false;
+    var randomcolor = randomRgbColor();
+  
     paper.setup(canvas);
     var tool = new paper.Tool();
-        //MouseDown and MouseMove and MouseUp is used to draw the line TiancaishaonianHWK
         tool.onMouseDown = function(event)
         {
+          alert(url);
           paintingStauts = true;
           startx = event.point.x;
           starty = event.point.y;
@@ -39,10 +41,14 @@
         {
           if(paintingStauts)
           {
+           context.beginPath();
+          var nowcolor = randomcolor
           point = event.point;
+          context.strokeStyle = nowcolor;
           context.moveTo(startx, starty);
           context.lineTo(point.x, point.y);
           context.lineWidth = 1;
+          
           context.stroke();
             var abc = 
                 {
@@ -50,13 +56,15 @@
                   x1:startx,
                   y1:starty,
                   x2:point.x,
-                  y2:point.y
+                  y2:point.y,
+                  color:context.strokeStyle
                 }
             var a = JSON.stringify(abc);
             socket.send(a);
-          startx = point.x
-          starty = point.y
+          startx = point.x;
+          starty = point.y;
           }
+          
          }
         tool.onMouseUp = function(event)
         {
@@ -64,37 +72,22 @@
         }
     // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
-//     let gameObj = 
-//        {
-//     // 当前是否在绘图
-//     isDrawing: false,
-//     // 绘制下一条线的起点
-//     startX: 0,
-//     startY: 0,
-//      endX:0,
-//       endy:0
-//        }
+
     var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
-//       function sendCanvas ()
-//       {
-//          var canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
-//          var data = { image: canvasContents, date: Date.now() };
-//          var string = JSON.stringify(data);
-//          socket.send(string);
-//       }
+    
     socket.onmessage = function(receivedMessage) 
       {
-    
-          var data = JSON.parse(receivedMessage.data);
+      if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/?size=large'){
+      context.beginPath();
+      var data = JSON.parse(receivedMessage.data);
       context.moveTo(data.x1,data.y1);
       context.lineTo(data.x2,data.y2);
-      context.stroke();
-//         console.log(data);
+      context.strokeStyle = data.color;
+      context.stroke();}
         // do something when you receive a message
       };
     socket.onopen = function(event)
       {
-       // sendCanvas();
       }
         
     // notify console if socket closes unexpectedly
@@ -102,6 +95,13 @@
       {
       console.error('Chat socket closed unexpectedly');
       };
-
+    
+  //1b assignment
+  function randomRgbColor() { //随机生成RGB颜色
+    var r = Math.floor(Math.random() * 256); //随机生成256以内r值
+    var g = Math.floor(Math.random() * 256); //随机生成256以内g值
+    var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+    return `rgb(${r},${g},${b})`; //返回rgb(r,g,b)格式颜色
+}
 </script>
 </html>
