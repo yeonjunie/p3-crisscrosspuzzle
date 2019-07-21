@@ -26,7 +26,10 @@
     var startx;
     var starty;
     var paintingStauts = false;
-    var randomcolor = randomRgbColor();
+  //for the second task
+   var randomcolor = randomRgbColor();
+    //for the first task
+   // var randomcolor = 'rgb(0,0,0)';
   
     paper.setup(canvas);
     var tool = new paper.Tool();
@@ -76,14 +79,15 @@
     
     socket.onmessage = function(receivedMessage) 
       {
-      //if(url == 'http://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw'){
+      //for 1-c task
+     // if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/?type=large'){
       context.beginPath();
       var data = JSON.parse(receivedMessage.data);
       context.moveTo(data.x1,data.y1);
       context.lineTo(data.x2,data.y2);
       context.strokeStyle = data.color;
       context.stroke();
-      //}
+     // }
         // do something when you receive a message
       };
     socket.onopen = function(event)
@@ -106,7 +110,7 @@
     //2a assignment
     var currhandle=0;//判断操作是否完成
     if(window.DeviceMotionEvent){
-        var speed = 5;  
+        var speed = 10;  
         var x = y = z = lastX = lastY = lastZ = 0;  
         window.addEventListener('devicemotion', function(){  
             var acceleration =event.accelerationIncludingGravity;  
@@ -117,7 +121,8 @@
             	if(currhandle==0){
             		//setbegin();//摇一摇事件触发后执行操作
             		currhandle=0;
-                context.clearRect(0,0,canvas.width,canvas.height);  
+                context.clearRect(0,0,canvas.width,canvas.height);
+                context.strokeStyle = randomcolor;
             	}	
             }  
             lastX = x;  
@@ -125,7 +130,7 @@
             lastZ = z;
         }, false);  
     }else{
-    	alert("您的设备不支持重力感应事件！");
+    //	alert("您的设备不支持重力感应事件！");
     }
  window.addEventListener('deviceorientation',(event)=>
 {
