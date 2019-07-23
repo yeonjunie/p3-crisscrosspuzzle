@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>P4 Drawing</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+  
+<!--     CSS书写顺序
+1.位置属性 (position, top, right, z-index, display, float等)　　
+2.大小 (width, height, padding, margin)　　
+3.文字系列 (font, line-height, letter-spacing, color- text-align等)　　
+4.背景 (background, border等)
+5.其他 (animation, transition等) -->
+    <style type="text/css">
+      .Title
+      {
+        position: absolute;
+        top:100px;
+        left:300px;
+        text-align:center;
+        width:50%;/*定宽*/
+        height:auto;
+        font-size: 30px;
+        font-family: Arial;
+        font-weight:bolder;
+        background:yellow;
+      }
+    </style>
+
+</head>
+<body>
+  <div class = "Title">Your Question is balabala</div>
+</body>
+<script>
+      //use for connection
+      var url = window.location.href;
+
+      var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
+    
+    socket.onmessage = function(receivedMessage) 
+      {
+   
+        // do something when you receive a message
+      };
+    socket.onopen = function(event)
+      {
+      
+      };
+        
+    // notify console if socket closes unexpectedly
+    socket.onclose = function(e) 
+      {
+      console.error('Chat socket closed unexpectedly');
+      };
+  
+</script>
+</html>

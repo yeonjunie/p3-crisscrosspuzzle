@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
-
     <style type="text/css">
     </style>
 
@@ -76,18 +75,18 @@
     var url = window.location.href;
 
     var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
-
+    
     socket.onmessage = function(receivedMessage) 
       {
       //for 1-c task
-     // if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/?type=large'){
+     if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
       context.beginPath();
       var data = JSON.parse(receivedMessage.data);
       context.moveTo(data.x1,data.y1);
       context.lineTo(data.x2,data.y2);
       context.strokeStyle = data.color;
       context.stroke();
-     // }
+     }
         // do something when you receive a message
       };
     socket.onopen = function(event)
