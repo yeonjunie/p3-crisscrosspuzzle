@@ -17,6 +17,12 @@
 4.背景 (background, border等)
 5.其他 (animation, transition等) -->
     <style type="text/css">
+      .name
+      {
+        font-size: 25px;
+        font-family: Arial;
+        font-weight:bolder;
+      }
       .Title
       {
         position: absolute;
@@ -45,13 +51,38 @@
 	      background:none repeat scroll 0 0 #F5F7FD;
 	      list-style:none outside none;
 	    }
-
+      
+        .SubmitButton
+        {
+        position:absolute;
+	      top:200px;
+        left:800px;
+        background-color:black;
+        color:white;
+        opacity:0.6;
+        }
+      
+      .HelpButton
+        {
+        position:absolute;
+	      top:200px;
+        left:900px;
+        background-color:black;
+        color:white;
+        opacity:0.6;
+        }
+        
     </style>
 
 </head>
 <body>
+  <div class = "name"><label>Your name:</label><input id="Name" class="NameBox" value="" placeholder="Input Your name!"/></div>
   <div class = "Title">Q6:YourYour Question is balabala</div>
+  <div>
   <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
+    <button class="SubmitButton">Submit</button>
+    <button class="HelpButton">Help</button>
+  </div>
 </body>
 <script>
       //use for connection
