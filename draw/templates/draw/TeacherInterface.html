@@ -7,6 +7,13 @@
 	<meta http-equiv="content-type" content="text/css/javascript/php; charset=UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
+  .RankList
+  {
+    position:absolute;
+    Top:20px;
+    right:100;
+    
+  }
   .puzzle {
 	border-collapse: collapse;
 	border-color:#000000;
@@ -118,22 +125,22 @@
 	$(document).ready(function(event) {
 		var puzzlewords = [
 				// word, clue
-			['Incompletee', 'Some of us are always meant to be this.'],
-			['Ecosystem', 'Any system where life can grow and thrive.'],
-			['Rad', 'If it\'s totally far out, then it\'s also probably totally this.'],
-			['Love', 'Basis for all of human civilization.'],
-			['Peace', 'When no soul is trying to destroy another soul.'],
+			['Incompletee', 'Some of us are always meant to be this'],
+			['Ecosystem', 'Any system where life can grow and thrive'],
+			['Rad', 'If it\'s totally far out, then it\'s also probably totally this'],
+			['Love', 'Basis for all of human civilization'],
+			['Peace', 'When no soul is trying to destroy another soul'],
 			['Community', 'Where we come from and we we finally end.'],
-			['Justice', 'If anyone is missing this, then nobody really has it.'],
-			['Land', 'There is nothing sadder than a peasant without this.'],
-			['Equality', 'If we are to trust each other in society, we must have this between everyone.'],
-			['Fraternity', 'In Utopia, we are so friendly, it is like we are in one of these.'],
-			['Comrade', 'You call your friends this, because Mr. and Mrs. are Sexist, gender-dominating terms.'],
-			['Cooperative', 'If something is based on the opposite of Domination, it is called this.'],
-			['Voluntary', 'Not just free to arrive when you want, but free to leave when you want, too.'],
-			['Non-coercive', 'To do something in a way that requires no force at all.'],
-			['Horizontal', 'If top-down societies are vertical, then bottom-up societies are this.'],
-			['Wholesome', 'Your health, your family, and your community should be this.'],
+			['Justice', 'If anyone is missing this, then nobody really has it'],
+			['Land', 'There is nothing sadder than a peasant without this'],
+			['Equality', 'If we are to trust each other in society, we must have this between everyone'],
+			['Fraternity', 'In Utopia, we are so friendly, it is like we are in one of these'],
+			['Comrade', 'You call your friends this, because Mr. and Mrs. are Sexist, gender-dominating terms'],
+			['Cooperative', 'If something is based on the opposite of Domination, it is called this'],
+			['Voluntary', 'Not just free to arrive when you want, but free to leave when you want, too'],
+			['Non-coercive', 'To do something in a way that requires no force at all'],
+			['Horizontal', 'If top-down societies are vertical, then bottom-up societies are this'],
+			['Wholesome', 'Your health, your family, and your community should be this'],
 		];
 		crosswordPuzzle(puzzlewords);
 	});
@@ -141,9 +148,11 @@
 </script>
 
 <body>
-
+<div>
 <div id="root" class="root">
 </div>
+  <div class= "RankList">RankList</div>
+  </div>
 <div id="lists" class="lists">
 	<table>
 		<tr>
@@ -193,19 +202,19 @@ function areWeInGodMode() {
 }
 //这几个random都是用来增加随机度，可以全部设置成false，他就不会变化了
 function areWeRandomizingPuzzleWords() {
-	return false;
+	return true;
 }
 
 function areWeRandomizingPuzzlePieces() {
-	return false;
+	return true;
 }
 
 function areWeRandomizingAcrossDownChoices() {
-	return false;
+	return true;
 }
 
 function areWeRandomizingAcrossDownLists() {
-	return false;
+	return true;
 }
 //结束随机方法的地方
   
@@ -251,10 +260,9 @@ function crosswordPuzzle(puzzlewords) {
 	return true;
 }
 //核心方法用来接收一list的puzzlewords 并且展示他们
-  
 			// User Form Actions
 			// --------------------------------------------
-//展示crossword的表哥和其列表
+//展示crossword的表格和其列表
 function showCrossWordOptions() {
 	var solvefunction = function() {
 		$('#solution-answer').val('');//set the  value  of value 
@@ -303,22 +311,23 @@ function showCrossWordOptions() {
 		
 		return false;
 	}
-	
+	//选定了某个across 或者downlist
 	var closesolvefunction = function() {
 		$('#answer-results').hide();
 		$('#answer-form').hide();
 		return false;
 	}
-	
+	//close it if you do not  want to answer 
+  
 	var answerfunction = function() {
 		var word = $(this).attr('data-word');
 		var answer = $('#solution-answer').val().toLowerCase();
-		
+		//获得点击事件的东东
+    //如果一样就去puzzlegmae上画线
 		if(answer == word) {
 			var across = $(this).attr('data-across');
-			
-			var x = parseInt($(this).attr('data-x'), 10);
-			var y = parseInt($(this).attr('data-y'), 10);
+			var x = parseInt($(this).attr('data-x'), 10);//获得x
+			var y = parseInt($(this).attr('data-y'), 10);//获得y
 			
 			if(across && across != 'false') {
 				for(var i = 0; i < answer.length; i++) {
@@ -334,8 +343,8 @@ function showCrossWordOptions() {
 				}
 			}
 			
-			$('#' + word + '-listing').addClass('strikeout');
-			$('#' + word + '-listing').attr('data-solved', true);
+			$('#' + word + '-listing').addClass('strikeout');//删除线
+			$('#' + word + '-listing').attr('data-solved', true);///定义解决了
 			
 			$('#answer-form').hide();
 		} else {
@@ -344,10 +353,9 @@ function showCrossWordOptions() {
 				$('#answer-results').html('Incorrect Answer, Please Try Again');
 			}
 		}
-		
 		return false;
 	}
-	
+	//自曝答案
 	var revealanswerfunction = function() {
 		var word = $(this).attr('data-word');
 		var across = $(this).attr('data-across');
@@ -386,8 +394,9 @@ function showCrossWordOptions() {
 
 function showCrossWordLists(wordlists, clues) {
 	var acrosslist = wordlists['across'];
+  //获取所有wordlist啥的东东
 	var downlist = wordlists['down'];
-	
+	//获取所有down的单词？
 	if(areWeRandomizingAcrossDownLists()) {
 		acrosslist = shuffle(acrosslist);
 		downlist = shuffle(downlist);
@@ -395,28 +404,27 @@ function showCrossWordLists(wordlists, clues) {
 	
 	var acrosslistordered = fillInCrossWordNumbers(acrosslist);
 	var downlistordered = fillInCrossWordNumbers(downlist, acrosslist, acrosslistordered);
-	
 	var acrosslistorderedelement = getViewableCrossWordList(acrosslistordered, clues, true);
 	var downlistorderedelement = getViewableCrossWordList(downlistordered, clues, false);
-	
 	$('#left-list').append(acrosslistorderedelement);
 	$('#right-list').append(downlistorderedelement);
 }
 
-function getViewableCrossWordList(listitems, clues, across) {
+function getViewableCrossWordList(listitems, clues, across) {//set their attributes
 	var numbers = Object.keys(listitems);
-	
-	var element = '<ul>';
-	
+	var element = '<ul>';	
 	for(var i = 0; i < numbers.length; i++) {
 		var number = numbers[i];
 		var wordinfo = listitems[number];
 		var word = wordinfo['word'];
 		var coordinates = wordinfo['coordinates'];
 		var clue = clues[word];
-		
 		element += '<li ';
+    element +=  'id ="';
+    element += (clue.replace(/\s*/g,'')).toLocaleLowerCase();
+    element +='"';
 		element += 'data-word="' + word.replace(/"/g, '&quot;') + '" ';
+    //means that " 在全局中替换成在html里是“＂”（引号），用法：& quot；（去掉&后的空格）引号的问题处理，细节！！！！！
 		element += 'data-clue="' + clue.replace(/"/g, '&quot;') + '" ';
 		element += 'data-x="' + coordinates[0] + '" ';
 		element += 'data-y="' + coordinates[1] + '" ';
@@ -439,6 +447,7 @@ function getViewableCrossWordList(listitems, clues, across) {
 }
 
 function fillInCrossWordNumbers(listitems, blockitems, blockitemsordered) {
+  // * Fill in the numbers in the crossword puzzle boxes that are each individually associated with a particular clue from the *across* or *down* lists.
 	var orderedlist = [];
 	var listnumber = 0;
 	for(var i = 0; i < listitems.length; i++) {
@@ -1440,23 +1449,69 @@ function shuffle(array) {
 	}
 	return array;
 }
-
-var url = window.location.href;
   
+function Trim(str)
+//删除空格
+   { 
+     return str.replace(/(^\s*)|(\s*$)/g, ""); 
+   }
+
+var url = window.location.href; 
 var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
 
     socket.onmessage = function(receivedMessage) 
       {
-    
-      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
-        alert(receivedMessage);
-        var data = JSON.parse(receivedMessage.data);
-        console.log(data.StudentName);
-        console.log(data.QuestionIndex);
-        console.log(data.Answer);
-      }
-        // do something when you receive a message
-      };
+      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface')
+      { var data = JSON.parse(receivedMessage.data);
+        if(data.To=="teacher"){
+        console.log(data.From);
+        var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
+        var word = $('#'+QuestionString).attr('data-word');
+        var answer =data.Answer;
+       
+        if(answer == word) 
+          {
+			       var across = $('#'+QuestionString).attr('data-across');
+    			   var x = parseInt($('#'+QuestionString).attr('data-x'), 10);
+		    	   var y = parseInt($('#'+QuestionString).attr('data-y'), 10);
+      	  if(across && across != 'false') 
+          {
+				    for(var i = 0; i < answer.length; i++) 
+            {
+					  var newheight = y + i ;
+					  var letterposition = 'letter-position-' + x + '-' + newheight;
+					  $('#' + letterposition).text(answer[i]);
+				    }
+			    } 
+          else 
+          {
+				    for(var i = 0; i < answer.length; i++) 
+            {
+					  var newwidth = x + i ;
+					  var letterposition = 'letter-position-' + newwidth + '-' + y;
+					  $('#' + letterposition).text(answer[i]);
+				    }
+			    }
+			  $('#' + answer + '-listing').addClass('strikeout');
+			  $('#' + answer + '-listing').attr('data-solved', true);	
+  			$('#answer-form').hide();
+		    var informationback = 
+                {
+                  From:'teacher',
+                  To:'hwk',
+                  Back:true,
+                }
+         var informationJSON = JSON.stringify(informationback);
+            socket.send(informationJSON);
+          } 
+        else 
+        {
+          socket.send("");
+		    }
+       
+      }}
+    };
+  
     socket.onopen = function(event)
       {
       }

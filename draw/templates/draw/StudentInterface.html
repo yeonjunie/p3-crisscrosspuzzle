@@ -77,10 +77,10 @@
 </head>
 <body>
   <div class = "name"><label>Your name:</label><input id="Name" class="NameBox" value="" placeholder="Input Your name!"/></div>
-  <div class = "Title">Q6:YourYour Question is balabala</div>
+  <div class = "Title">YourYour Question is balabala</div>
   <div>
   <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
-    <button class="SubmitButton">Submit</button>
+    <button class="SubmitButton"  onClick = "fun()">Submit</button>
     <button class="HelpButton" onClick = "fun()">Help</button>
   </div>
 </body>
@@ -89,13 +89,14 @@
      function fun(){
       var information = 
                 {
-                  StudentName:'hwk',
-                  QuestionIndex:'1',
-                  Answer:'hwk is a handsome boy haha'
+                  To:'teacher',
+                  From:'hwk',
+                  Question:'When no soul is trying to destroy another soul',
+                  Answer:'peace',
+                  Time:'35'
                 }
             var informationJSON = JSON.stringify(information);
             socket.send(informationJSON);
-      //socket.send("i was clicked");
         }
       //use for connection
       var url = window.location.href;
@@ -104,8 +105,13 @@
     
     socket.onmessage = function(receivedMessage) 
       {
-     
-      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
+        var data = JSON.parse(receivedMessage.data);
+      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/studentinterface'){
+        if(data.Back==true){
+        alert(data.Back);
+        //alert("sds");
+        }
+                //var data = JSON.parse(receivedMessage.data);
         //we may not do it at this place, we need to code in the teacherinterface?
       }
       
