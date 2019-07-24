@@ -1449,7 +1449,9 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
       if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
         alert(receivedMessage);
         var data = JSON.parse(receivedMessage.data);
-        console.log(data.studentname);
+        console.log(data.StudentName);
+        console.log(data.QuestionIndex);
+        console.log(data.Answer);
       }
         // do something when you receive a message
       };

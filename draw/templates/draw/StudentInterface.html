@@ -89,8 +89,9 @@
      function fun(){
       var information = 
                 {
-                  studentname:'hwk',
-                   
+                  StudentName:'hwk',
+                  QuestionIndex:'1',
+                  Answer:'hwk is a handsome boy haha'
                 }
             var informationJSON = JSON.stringify(information);
             socket.send(informationJSON);
@@ -105,10 +106,9 @@
       {
      
       if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
-//         alert(receivedMessage.data);
-//         console.log(receivedMessage);
+        //we may not do it at this place, we need to code in the teacherinterface?
       }
-        // do something when you receive a message
+      
       };
     socket.onopen = function(event)
       {
