@@ -8,6 +8,5 @@ urlpatterns = [
     url(r'^(?P<room_name>[^/]+)/$', views.room, name='room'),
     url(r'^studentinterface$', views.StudentInterface, name='student'),
     url(r'^teacherinterface$',views.TeacherInterface, name='teacher'),
-#     url(r'^crossword-puzzle-demo$',views.crosswordpuzzledemo,name='cross'),
 ]
 

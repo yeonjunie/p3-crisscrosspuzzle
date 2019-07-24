@@ -81,10 +81,21 @@
   <div>
   <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
     <button class="SubmitButton">Submit</button>
-    <button class="HelpButton">Help</button>
+    <button class="HelpButton" onClick = "fun()">Help</button>
   </div>
 </body>
+  
 <script>
+     function fun(){
+      var information = 
+                {
+                  studentname:'hwk',
+                   
+                }
+            var informationJSON = JSON.stringify(information);
+            socket.send(informationJSON);
+      //socket.send("i was clicked");
+        }
       //use for connection
       var url = window.location.href;
 
@@ -92,12 +103,16 @@
     
     socket.onmessage = function(receivedMessage) 
       {
-   
+     
+      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface'){
+//         alert(receivedMessage.data);
+//         console.log(receivedMessage);
+      }
         // do something when you receive a message
       };
     socket.onopen = function(event)
       {
-      
+        
       };
         
     // notify console if socket closes unexpectedly
