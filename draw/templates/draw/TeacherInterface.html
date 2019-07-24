@@ -186,28 +186,29 @@
 var crosswordclues = [];
 			// Set Randomization Configs
 			// --------------------------------------------
-
+//用于表示游戏的结束，方便debug
 function areWeInGodMode() {
 	return false;
 	return true;
 }
-
+//这几个random都是用来增加随机度，可以全部设置成false，他就不会变化了
 function areWeRandomizingPuzzleWords() {
-	return true;
+	return false;
 }
 
 function areWeRandomizingPuzzlePieces() {
-	return true;
+	return false;
 }
 
 function areWeRandomizingAcrossDownChoices() {
-	return true;
+	return false;
 }
 
 function areWeRandomizingAcrossDownLists() {
-	return true;
+	return false;
 }
-
+//结束随机方法的地方
+  
 			// Main()
 			// --------------------------------------------
 
@@ -249,10 +250,11 @@ function crosswordPuzzle(puzzlewords) {
 	showCrossWordOptions();
 	return true;
 }
-
+//核心方法用来接收一list的puzzlewords 并且展示他们
+  
 			// User Form Actions
 			// --------------------------------------------
-
+//展示crossword的表哥和其列表
 function showCrossWordOptions() {
 	var solvefunction = function() {
 		$('#solution-answer').val('');//set the  value  of value 
@@ -1457,7 +1459,6 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
       };
     socket.onopen = function(event)
       {
-        
       }
         
     // notify console if socket closes unexpectedly
