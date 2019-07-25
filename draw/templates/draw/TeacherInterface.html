@@ -167,7 +167,7 @@
 			['Evaluation', 'Third phase of action cycle'],
 			['Cognitive', 'ANSWER walkthrough is when you pretend to be the user and walk through tasks'],
       ['Aesthetic', 'ANSWER usability effect describes paradox that people think more aesthetic designs as more intuitive'],
-      ['‘Likert', 'ANSWER tscale questions ask participants to express degree of agreement with a statement'],
+      ['Likert', 'ANSWER tscale questions ask participants to express degree of agreement with a statement'],
 		];
 		crosswordPuzzle(puzzlewords);
 	});
@@ -1503,11 +1503,14 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
       if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface')
       { var data = JSON.parse(receivedMessage.data);
         if(data.To=="teacher"){
-        console.log(data.From);
+//         console.log(data.From);
+//         console.log(data.Time);
+        //处理数据balabala  
         var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
         var wordOld = $('#'+QuestionString).attr('data-word');
         var word = wordOld.toLowerCase();//小写
         var answer =data.Answer.toLowerCase();
+        //如果和答案一样
         if(answer == word) 
           {
 			       var across = $('#'+QuestionString).attr('data-across');
@@ -1534,8 +1537,10 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
 			  $('#' + answer + '-listing').addClass('strikeout');
 			  $('#' + answer + '-listing').attr('data-solved', true);	
   			$('#answer-form').hide();
+        //如果符合了就添加进表格
         addrankList(data.From,data.Time);
-        sortTable(false);
+        //排序
+        sortTable(true);
 		    var informationback = 
                 {
                   From:'teacher',

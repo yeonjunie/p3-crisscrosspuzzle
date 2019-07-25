@@ -71,29 +71,68 @@
         color:white;
         opacity:0.6;
         }
-        
+      
+.wrap{
+  position:absolute;
+  top:20px;
+  right:20px;
+	width:150px;
+	height:150px;
+	border-radius:50%;
+	position:absolute;
+/* 	top:calc(50% - 150px);
+	left:calc(50% - 150px); */
+	box-shadow: 0 0 9px red;
+}
+ 
+ 
+#timer{
+	position:absolute;
+	top:50px;
+	right:50px;
+	font-size:38px;
+}
+
+
     </style>
 
 </head>
 <body>
-  <div class = "name"><label>Your name:</label><input id="Name" class="NameBox" value="" placeholder="Input Your name!"/></div>
-  <div class = "Title">YourYour Question is balabala</div>
+  <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
+  <div class = "Title" id ="Question">The Belmont principles are beneficence justice and ANSWER</div>
+  
+<div class="wrap">
+    <div id="timer" >
+        <span id="second">00</span>
+    </div>
+ 
+<!--     <div id="btn">
+        <button id="begin">开始</button>
+        <button id="pause">暂停</button>
+    </div> -->
+</div>
+
   <div>
   <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
+<!--     Respect -->
     <button class="SubmitButton"  onClick = "fun()">Submit</button>
-    <button class="HelpButton" onClick = "fun()">Help</button>
+    <button class="HelpButton" onClick = "fun()">Switch</button>
   </div>
 </body>
   
 <script>
      function fun(){
+       second = document.getElementById("second");
+       StudentName = document.getElementById("NameBox");
+       QuestionString = document.getElementById("Question");
+       AnswerString = document.getElementById("test");
       var information = 
                 {
                   To:'teacher',
-                  From:'hwk',
-                  Question:'The Belmont principles are beneficence justice and ANSWER',
-                  Answer:'Respect',
-                  Time:'35'
+                  From:StudentName.value,
+                  Question:QuestionString.innerText,
+                  Answer:AnswerString.value,
+                  Time:second.innerText,
                 }
             var informationJSON = JSON.stringify(information);
             socket.send(informationJSON);
@@ -106,9 +145,11 @@
     socket.onmessage = function(receivedMessage) 
       {
         var data = JSON.parse(receivedMessage.data);
-      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/studentinterface'){
+        if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/studentinterface'){
         if(data.Back==true){
-        alert(data.Back);
+          alert(data.Back);
+         // $("#timer").hide();
+          clearInterval(timer);
         }
       }
       
@@ -124,5 +165,34 @@
       console.error('Chat socket closed unexpectedly');
       };
   
+  //timer
+    var second=null;
+    var timer = null
+
+window.onload = function(){
+	second = document.getElementById("second");
+		var  pause = document.getElementById("pause");
+		var  Second = 0;
+  
+   		timer = setInterval(function()
+      {
+			Second++;
+			if(Second < 10){
+				second.innerText = "0" + Second;
+			}else{
+				second.innerText = Second;
+			}
+		},1000)
+// 	begin.onclick = function()
+//     {
+
+// 	}
+	
+    function stop()
+  {
+		clearInterval(timer);
+	}
+}
+
 </script>
 </html>
