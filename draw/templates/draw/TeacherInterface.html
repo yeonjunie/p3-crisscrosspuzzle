@@ -151,22 +151,23 @@
 	$(document).ready(function(event) {
 		var puzzlewords = [
 				// word, clue
-			['Incompletee', 'Some of us are always meant to be this'],
-			['Ecosystem', 'Any system where life can grow and thrive'],
-			['Rad', 'If it\'s totally far out, then it\'s also probably totally this'],
-			['Love', 'Basis for all of human civilization'],
-			['Peace', 'When no soul is trying to destroy another soul'],
-			['Community', 'Where we come from and we we finally end.'],
-			['Justice', 'If anyone is missing this, then nobody really has it'],
-			['Land', 'There is nothing sadder than a peasant without this'],
-			['Equality', 'If we are to trust each other in society, we must have this between everyone'],
-			['Fraternity', 'In Utopia, we are so friendly, it is like we are in one of these'],
-			['Comrade', 'You call your friends this, because Mr. and Mrs. are Sexist, gender-dominating terms'],
-			['Cooperative', 'If something is based on the opposite of Domination, it is called this'],
-			['Voluntary', 'Not just free to arrive when you want, but free to leave when you want, too'],
-			['Non-coercive', 'To do something in a way that requires no force at all'],
-			['Horizontal', 'If top-down societies are vertical, then bottom-up societies are this'],
-			['Wholesome', 'Your health, your family, and your community should be this'],
+			['interaction','HCI stands for Human computer answer'],
+			['Design', 'First phase of design cycle'],
+			['Prototype', 'Second phase of design cycle'],
+			['Evaluate', 'Third phase of design cycle'],
+			['Wireframe', 'Architectural representation of a user interface'],
+			['Affordances', 'Relationship between person and object'],
+			['Skeuomorphs', 'Physical ornament on object copied from an object when made from another materia'],
+			['Three', 'How many waves are there in paradigms of HCI'],
+			['Persona', 'Model of a user that helps us think about users'],
+			['Experience', 'Users normally have three goals life end and ANSWER goals'],
+			['Respect', 'The Belmont principles are beneficence justice and ANSWER'],
+			['Goals', 'First phase of action cycle'],
+			['Executione', 'Second phase of action cycle'],
+			['Evaluation', 'Third phase of action cycle'],
+			['Cognitive', 'ANSWER walkthrough is when you pretend to be the user and walk through tasks'],
+      ['Aesthetic', 'ANSWER usability effect describes paradox that people think more aesthetic designs as more intuitive'],
+      ['‘Likert', 'ANSWER tscale questions ask participants to express degree of agreement with a statement'],
 		];
 		crosswordPuzzle(puzzlewords);
 	});
@@ -188,7 +189,6 @@
           <td class="RankListIem">40</td>
         </tr>
     </table>
-    <button class="add">添加</button>
 </div>
 </div>
   
@@ -1505,8 +1505,9 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
         if(data.To=="teacher"){
         console.log(data.From);
         var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
-        var word = $('#'+QuestionString).attr('data-word');
-        var answer =data.Answer;
+        var wordOld = $('#'+QuestionString).attr('data-word');
+        var word = wordOld.toLowerCase();//小写
+        var answer =data.Answer.toLowerCase();
         if(answer == word) 
           {
 			       var across = $('#'+QuestionString).attr('data-across');
@@ -1574,20 +1575,7 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
             table.insertBefore(newTr,table.children[1]);
         
   }
-      window.onload=function (name,score) {
-        let table=document.querySelector('tbody');
-        let addInfo=document.querySelector('.add');
-        addInfo.onclick=function (e) {
-            let newTr=document.createElement('tr');
-            newTr.innerHTML=`
-            <td class="RankListIem">name</td>
-            <td class="RankListIem">score</td>
-            `;
-            // table.appendChild(newTr);
-            table.insertBefore(newTr,table.children[1]);
-            sortTable(false);
-        }
-    };
+
   
   function getValues(){
     var tab = document.getElementById("RankList");
