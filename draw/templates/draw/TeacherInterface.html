@@ -184,10 +184,7 @@
             <th>Name</th>
             <th>Score</th>
         </tr>
-        <tr>
-          <td class="RankListIem">tlj</td>
-          <td class="RankListIem">40</td>
-        </tr>
+       
     </table>
 </div>
 </div>
@@ -1501,16 +1498,20 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
     socket.onmessage = function(receivedMessage) 
       {
       if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface')
-      { var data = JSON.parse(receivedMessage.data);
+        { 
+        var data = JSON.parse(receivedMessage.data);
         if(data.To=="teacher"){
-//         console.log(data.From);
-//         console.log(data.Time);
         //处理数据balabala  
         var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
         var wordOld = $('#'+QuestionString).attr('data-word');
         var word = wordOld.toLowerCase();//小写
         var answer =data.Answer.toLowerCase();
+        var studentNNNAAAMMEEE  = data.From;
+        
         //如果和答案一样
+        //如果没有回答过
+        var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
+        if(!ifanswer){
         if(answer == word) 
           {
 			       var across = $('#'+QuestionString).attr('data-across');
@@ -1541,21 +1542,79 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
         addrankList(data.From,data.Time);
         //排序
         sortTable(true);
+        console.log(studentNNNAAAMMEEE);
 		    var informationback = 
                 {
                   From:'teacher',
-                  To:'hwk',
+                  To:studentNNNAAAMMEEE,
                   Back:true,
+                  Reason:'Answer is true'
                 }
          var informationJSON = JSON.stringify(informationback);
             socket.send(informationJSON);
           } 
         else 
         {
+           var informationback = 
+                {
+                  From:'teacher',
+                  To:studentNNNAAAMMEEE,
+                  Back:false,
+                  Reason:'Answer is not true'
+                }
+         var informationJSON = JSON.stringify(informationback);
+          socket.send(informationJSON);
           socket.send("");
 		    }
-       
-      }}
+        }
+          else
+          {
+            var informationback = 
+                {
+                  From:'teacher',
+                  To:studentNNNAAAMMEEE,
+                  Back:false,
+                  Reason:'Answer has been answered'
+                }
+         var informationJSON = JSON.stringify(informationback);
+            socket.send(informationJSON);
+          }
+      }
+        
+        if(data.To=="server")
+        {
+          var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
+          var wordOld = $('#'+QuestionString).attr('data-word');
+          var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
+          var studentNNNAAAMMEEEEEEE  = data.From;
+          console.log(ifanswer);
+          if(ifanswer=='true')
+           {
+            alert("question is answered");
+            var backResult=
+            {
+              From:'server',
+              To:studentNNNAAAMMEEEEEEE,
+              Result:false,
+            }
+            
+            var informationJSONsss = JSON.stringify(backResult);
+            socket.send(informationJSONsss);
+          } else {
+            var backResult=
+            {
+              
+              From:'server',
+              To:studentNNNAAAMMEEEEEEE,
+              Result:true,
+            }
+            
+            var informationJSONsss = JSON.stringify(backResult);
+            socket.send(informationJSONsss);
+          }
+          
+        }
+        }
     };
   
     socket.onopen = function(event)

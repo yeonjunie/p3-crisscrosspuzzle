@@ -49,9 +49,12 @@
 	      vertical-align:middle;
         font-family:Arial;
 	      font-size:40px；
-        border:1px solid #B8BFE9;
-	      background:none repeat scroll 0 0 #F5F7FD;
-	      list-style:none outside none;
+       background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
 	    }
       
       .NameBox {
@@ -123,7 +126,7 @@
         <input id="NameBox" class="NameBox" value="" placeholder="your name"/>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="begintime()">Close</button>
       </div>
     </div>
   </div>
@@ -131,8 +134,8 @@
   
 <!--   <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
    -->
-  <div class = "Title" id ="Question">The Belmont principles are beneficence justice and ANSWER</div>
-  
+  <div class = "Title" id ="Question"></div>
+   
 <div class="wrap">
     <div id="timer" >
         <span id="second">00</span>
@@ -143,16 +146,14 @@
   <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
 <!--     Respect -->
     <button class="SubmitButton"  onClick = "fun()">Submit</button>
-    <button class="HelpButton" onClick = "fun()">Switch</button>
+    <button class="HelpButton" onClick = "switchQ()">Switch</button>
   </div>
 </body>
   
 <script>
-//       $(document).ready(function() {
-//         $('#my-modal').modal('show');
-//         var height = $(window).height() - 200;
-//     });
   
+  var currq;
+
      function fun(){
        second = document.getElementById("second");
        StudentName = document.getElementById("NameBox");
@@ -176,14 +177,47 @@
     
     socket.onmessage = function(receivedMessage) 
       {
+        StudentNamehh = document.getElementById("NameBox");
         var data = JSON.parse(receivedMessage.data);
+        
         if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/studentinterface'){
-        if(data.Back==true){
-          alert(data.Back);
+          if(data.From == 'server' && data.To==StudentNamehh.value) { 
+            if (data.Result == false) {
+              switchQ();
+            } if (data.Result == true)  {
+              QuestionString = document.getElementById("Question");
+              QuestionString.innerText=dic[currq];
+              
+              
+            }
+          
+          }
+          
+          if(data.To==StudentNamehh.value)
+          {
+          if(data.Back==true){
+          alert(data.Reason);
          // $("#timer").hide();
-          clearInterval(timer);
+          stop();
+         // clearInterval(timer);
         }
+          else if (data.Back==false)
+          {
+            alert(data.Reason);  
+          }
+          
+            
+            
+          
+            
+            
+            
+          }
+          
+          
       }
+      
+      
       
       };
     socket.onopen = function(event)
@@ -198,20 +232,53 @@
       };
   
   //timer
-    var second=null;
-    var timer = null
+
+      function switchQ(){
+         currq = nextq(currq);
+
+         StudentName = document.getElementById("NameBox");
+
+        var feedback=
+        {
+            To: 'server',
+            From: StudentName.value,
+            Question: dic[currq],
+            
+        }
+        var informationJSON = JSON.stringify(feedback);
+            socket.send(informationJSON);
+      }
+   
+  function nextq(x){
+    if (x == 17) {
+      return 1;
+    } else {
+      return x + 1;
+    }
+  }
   
   window.onload = function(){
     
     $('#my-modal').modal('show');
-        var height = $(window).height() - 200;
-    
-	second = document.getElementById("second");
-		var  pause = document.getElementById("pause");
+    var height = $(window).height() - 200;
+
+    QuestionString = document.getElementById("Question");
+    currq = Math.floor(Math.random() * (Math.floor(17) - Math.ceil(1) + 1)) + Math.ceil(1);
+    QuestionString.innerText=dic[currq];
+   		
+
+    function stop()
+  {
+		clearInterval(timer);
+	}
+}
+  var second=null;
+  var timer = null
+  function begintime()
+  {
+    second = document.getElementById("second");
 		var  Second = 0;
-         QuestionString = document.getElementById("Question");
-    QuestionString.innerText=dic[2];
-   		timer = setInterval(function()
+    timer = setInterval(function()
       {
 			Second++;
 			if(Second < 10){
@@ -220,16 +287,8 @@
 				second.innerText = Second;
 			}
 		},1000)
-// 	begin.onclick = function()
-//     {
-
-// 	}
-    function stop()
-  {
-		clearInterval(timer);
-	}
+ 
   }
-
   //for random question
   var dic = { 		
       1:'HCI stands for Human computer answer',
