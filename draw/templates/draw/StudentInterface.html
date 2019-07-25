@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
 <!--     CSS书写顺序
 1.位置属性 (position, top, right, z-index, display, float等)　　
@@ -51,6 +53,16 @@
 	      background:none repeat scroll 0 0 #F5F7FD;
 	      list-style:none outside none;
 	    }
+      
+      .NameBox {
+          border: none;
+          background-color: none;
+          outline: 0;
+          font-size: 25px;
+          width: 300px;
+          height: 30px;
+          text-align:center;
+      }
       
         .SubmitButton
         {
@@ -98,18 +110,33 @@
 
 </head>
 <body>
-  <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
+  <div class="modal" id = "my-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crossword Puzzle Challenge</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input id="NameBox" class="NameBox" value="" placeholder="your name"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<!--   <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
+   -->
   <div class = "Title" id ="Question">The Belmont principles are beneficence justice and ANSWER</div>
   
 <div class="wrap">
     <div id="timer" >
         <span id="second">00</span>
     </div>
- 
-<!--     <div id="btn">
-        <button id="begin">开始</button>
-        <button id="pause">暂停</button>
-    </div> -->
 </div>
 
   <div>
@@ -121,6 +148,11 @@
 </body>
   
 <script>
+//       $(document).ready(function() {
+//         $('#my-modal').modal('show');
+//         var height = $(window).height() - 200;
+//     });
+  
      function fun(){
        second = document.getElementById("second");
        StudentName = document.getElementById("NameBox");
@@ -168,12 +200,17 @@
   //timer
     var second=null;
     var timer = null
-
-window.onload = function(){
+  
+  window.onload = function(){
+    
+    $('#my-modal').modal('show');
+        var height = $(window).height() - 200;
+    
 	second = document.getElementById("second");
 		var  pause = document.getElementById("pause");
 		var  Second = 0;
-  
+         QuestionString = document.getElementById("Question");
+    QuestionString.innerText=dic[2];
    		timer = setInterval(function()
       {
 			Second++;
@@ -187,12 +224,31 @@ window.onload = function(){
 //     {
 
 // 	}
-	
     function stop()
   {
 		clearInterval(timer);
 	}
-}
+  }
 
+  //for random question
+  var dic = { 		
+      1:'HCI stands for Human computer answer',
+			2:'First phase of design cycle',
+			3:'Second phase of design cycle',
+			4:'Third phase of design cycle',
+			5:'Architectural representation of a user interface',
+			6:'Relationship between person and object',
+			7:'Physical ornament on object copied from an object when made from another materia',
+			8:'How many waves are there in paradigms of HCI',
+			9:'Model of a user that helps us think about users',
+			10:'Users normally have three goals life end and ANSWER goals',
+			11:'The Belmont principles are beneficence justice and ANSWER',
+			12:'First phase of action cycle',
+			13:'Second phase of action cycle',
+			14:'Third phase of action cycle',
+			15:'ANSWER walkthrough is when you pretend to be the user and walk through tasks',
+      16:'ANSWER usability effect describes paradox that people think more aesthetic designs as more intuitive',
+      17:'ANSWER tscale questions ask participants to express degree of agreement with a statement',
+  };
 </script>
 </html>
