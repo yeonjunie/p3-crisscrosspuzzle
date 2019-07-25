@@ -117,6 +117,32 @@
 .hidden {
 	display: none;
 }
+  
+  
+/*   for ranking list */
+  .box
+  {
+    position:absolute;
+    top:20px;
+    right:20px;
+    width: 400px;
+    height:auto;
+    background-color: #FFB6C1;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+  }
+  
+  #RankList{
+    width: 100%;
+    height: 100%;
+    padding: 10px 20px;
+}
+
+
+.RankListIem{
+    padding: 10px 20px;
+    text-align: center;
+}
   </style>
 </head>
 
@@ -151,8 +177,19 @@
 <div>
 <div id="root" class="root">
 </div>
-  <div class= "RankList">RankList</div>
-  </div>
+<div class="box">
+    <table id = "RankList">
+        <tr>
+            <th>姓名</th>
+            <th>性别</th>
+        </tr>
+        <tr>
+        </tr>
+    </table>
+    <button class="add">添加</button>
+</div>
+</div>
+  
 <div id="lists" class="lists">
 	<table>
 		<tr>
@@ -1468,7 +1505,6 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
         var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
         var word = $('#'+QuestionString).attr('data-word');
         var answer =data.Answer;
-       
         if(answer == word) 
           {
 			       var across = $('#'+QuestionString).attr('data-across');
@@ -1495,6 +1531,7 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
 			  $('#' + answer + '-listing').addClass('strikeout');
 			  $('#' + answer + '-listing').attr('data-solved', true);	
   			$('#answer-form').hide();
+            addrankList(data.From,data.Time);
 		    var informationback = 
                 {
                   From:'teacher',
@@ -1521,6 +1558,32 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
       {
       console.error('Chat socket closed unexpectedly');
       };
+  
+  //for ranking list
+  function addrankList(name,score)
+  {
+    let table=document.querySelector('tbody');
+            let newTr=document.createElement('tr');
+            newTr.innerHTML=`
+            <td class="RankListIem">`+name+`</td>
+            <td class="RankListIem">`+score+`</td>
+            `;
+            table.insertBefore(newTr,table.children[1]);
+        
+  }
+      window.onload=function (name,score) {
+        let table=document.querySelector('tbody');
+        let addInfo=document.querySelector('.add');
+        addInfo.onclick=function (e) {
+            let newTr=document.createElement('tr');
+            newTr.innerHTML=`
+            <td class="RankListIem">name</td>
+            <td class="RankListIem">score</td>
+            `;
+            // table.appendChild(newTr);
+            table.insertBefore(newTr,table.children[1]);
+        }
+    };
     
   </script> 
 </html>
