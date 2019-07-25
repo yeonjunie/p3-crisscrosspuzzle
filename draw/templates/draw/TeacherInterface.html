@@ -180,10 +180,12 @@
 <div class="box">
     <table id = "RankList">
         <tr>
-            <th>姓名</th>
-            <th>性别</th>
+            <th>Name</th>
+            <th>Score</th>
         </tr>
         <tr>
+          <td class="RankListIem">tlj</td>
+          <td class="RankListIem">40</td>
         </tr>
     </table>
     <button class="add">添加</button>
@@ -1531,7 +1533,8 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
 			  $('#' + answer + '-listing').addClass('strikeout');
 			  $('#' + answer + '-listing').attr('data-solved', true);	
   			$('#answer-form').hide();
-            addrankList(data.From,data.Time);
+        addrankList(data.From,data.Time);
+        sortTable(false);
 		    var informationback = 
                 {
                   From:'teacher',
@@ -1582,8 +1585,55 @@ var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.c
             `;
             // table.appendChild(newTr);
             table.insertBefore(newTr,table.children[1]);
+            sortTable(false);
         }
     };
+  
+  function getValues(){
+    var tab = document.getElementById("RankList");
+    var arr = new Array();
+    for(var i=1;i<tab.rows.length;i++){
+        var temp = new Array();
+        temp[0] = tab.rows[i].children[0].innerHTML;
+        console.log(temp[0]);
+        temp[1] = parseInt(tab.rows[i].children[1].innerHTML);
+        console.log(temp[1]);
+        arr[i-1] = temp;
+        console.log(arr);
+    }
+    return arr;
+}
+
+function sortArray(flag){
+    arr = getValues();
+    for(var i=1;i<arr.length;i++){
+        for(var j=0;j<i;j++){
+            if(flag){
+                if(arr[i][1]<arr[j][1]){
+                    var temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }else{
+                if(arr[i][1]>arr[j][1]){
+                    var temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+    }
+    return arr;
+}
+
+function sortTable(flag){
+    var arr = sortArray(flag);
+    var tab = document.getElementById("RankList");
+    for(var i=0;i<arr.length;i++){
+        tab.rows[i+1].children[0].innerHTML = arr[i][0];
+        tab.rows[i+1].children[1].innerHTML = arr[i][1];
+    }
+}
     
   </script> 
 </html>
