@@ -4,14 +4,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>P4 Drawing</title>
+    <title>StudentInterface</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  
+  <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
 <!--     CSS书写顺序
 1.位置属性 (position, top, right, z-index, display, float等)　　
 2.大小 (width, height, padding, margin)　　
@@ -19,37 +21,51 @@
 4.背景 (background, border等)
 5.其他 (animation, transition等) -->
     <style type="text/css">
+      body {background-color: #abdaee;}
       .name
       {
         font-size: 25px;
         font-family: Arial;
         font-weight:bolder;
       }
+
+      #qlabel {
+        position:absolute;
+        top: 58px;
+        left: 300px;
+        font-size: 60px;
+        font-family: 'Bree Serif', serif;
+        
+      }
       .Title
       {
-        position: absolute;
-        top:100px;
-        left:300px;
+               position: absolute;
+        top:130px;
+        left:70px;
         text-align:center;
-        width:50%;/*定宽*/
-        height:auto;
-        font-size: 30px;
-        font-family: Arial;
-        font-weight:bolder;
-        background:yellow;
+        vertical-align: middle;
+        border-radius: 25px;
+        width:830px;/*定宽*/
+        height:170px;
+        background-color: #ffd025;
+        font-size: 32px;
+        font-family: 'Bree Serif', serif;
+        padding: 45px 27px;
       }
       
         .InputBox 
       {
         position:absolute;
-	      top:200px;
-        left:550px;
-	      width:200px;
-        height:40px;
+	      top:300px;
+        left:280px;
+	      width:450px;
+        height:90px;
 	      vertical-align:middle;
-        font-family:Arial;
-	      font-size:40px；
-       background: transparent;
+        font-family: 'Bree Serif', serif;
+	      font-size:28px;
+        padding: 25px 20px;
+       background-color: white;
+        border-radius: 4px;
   border: none;
   border-bottom: 1px solid #000000;
   -webkit-box-shadow: none;
@@ -57,55 +73,54 @@
   border-radius: 0;
 	    }
       
-      .NameBox {
-          border: none;
-          background-color: none;
-          outline: 0;
-          font-size: 25px;
-          width: 300px;
-          height: 30px;
-          text-align:center;
-      }
+     
+      
+      
       
         .SubmitButton
         {
         position:absolute;
-	      top:200px;
-        left:800px;
-        background-color:black;
+	      top:430px;
+        left:40%;
+        background-color: #3c2dc5;
         color:white;
-        opacity:0.6;
+          font-size: 23px;
+           font-family: 'Bree Serif', serif;
+        
         }
       
       .HelpButton
         {
         position:absolute;
-	      top:200px;
-        left:900px;
-        background-color:black;
+	      top:430px;
+        left:52%;
+        background-color: #3c2dc5;
         color:white;
-        opacity:0.6;
+          font-size: 23px;
+           font-family: 'Bree Serif', serif;
+        
         }
       
-.wrap{
+ .wrap{
   position:absolute;
   top:20px;
   right:20px;
-	width:150px;
-	height:150px;
+	width:50px;
+	height:50px;
 	border-radius:50%;
 	position:absolute;
-/* 	top:calc(50% - 150px);
-	left:calc(50% - 150px); */
-	box-shadow: 0 0 9px red;
-}
+
+   background-color: #3c2dc5;
+} 
  
  
 #timer{
 	position:absolute;
-	top:50px;
-	right:50px;
-	font-size:38px;
+	top:10px;
+	right:14px;
+	font-size:20px;
+  font-family: 'Bree Serif', serif;
+  color: white;
 }
       body
       {
@@ -117,10 +132,61 @@
         position:absolute;
         top:350px;
         width:100%;
-/*         width=fixed; */
         display:none;
       }
-
+     
+      #Slogan
+      {
+        
+        position:absolute;
+        right:270px;
+        top:500px;
+        font-family:'Luckiest Guy', cursive;
+        font-size:22px;
+      }
+      
+      .modal-header, .modal-footer {
+        background-color: #ffd025;
+        text-align: center;
+      }
+      .modal-title {
+        font-size: 50px;
+        text-align: center;
+        font-family:'Luckiest Guy', cursive;
+      }
+      
+      .NameBox {
+          border: none;
+        left: 70%;
+          background-color: none;
+          outline: 0;
+          font-size: 28px;
+          width: 300px;
+          height: 30px;
+          display: inline-block;
+         font-family: 'Bree Serif', serif;
+      }
+      
+      .modal-body {
+        text-align: center;
+      }
+      .modal-footer { 
+        padding-left:40%;
+          font-family: 'Bree Serif', serif;
+        font-size: 23px;
+      }
+      .button {
+      background-color: #242140;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+        border-radius: 12px;
+}
     </style>
 
 </head>
@@ -129,24 +195,29 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Crossword Puzzle Challenge</h5>
+        <h5 class="modal-title">Criss Cross Puzzle Challenge</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ">
+        <br /><br />
         <input id="NameBox" class="NameBox" value="" placeholder="first and last name"/>
+        <br />
+        <br />
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="begintime()">Close</button>
+        <button type="button" class="btn-outline-dark "data-dismiss="modal" onclick="begintime()">begin!</button>
       </div>
     </div>
   </div>
 </div>
-      
-<!--   <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
-   -->
-  <div class = "Title" id ="Question"></div>
+   
+ 
+  <div class = "container">
+    <div class = "Title" id ="Question"></div>
+  </div>
+  
    
 <div class="wrap">
     <div id="timer" >
@@ -155,15 +226,14 @@
 </div>
 
   <div>
-  <input id="test" class="InputBox" value="" placeholder="Input Your answer!"/>
+  <input id="test" class="InputBox" value="" placeholder="write your answer here!"/>
 <!--     Respect -->
-    <button class="SubmitButton"  onClick = "fun()">Submit</button>
-    <button class="HelpButton" onClick = "switchQ()">Switch</button>
+    <button type="button" id = "submit" class="btn btn-primary btn-lg SubmitButton"  onClick = "fun()">submit</button>
+    <button type="button" id ="switch" class="btn btn-primary btn-lg HelpButton" onClick = "switchQ()">switch</button>
   </div>
-  <center>
- 
-      <iframe id="SuccessImg" z-index = 7  frameborder="0" scrolling="no" src="success"   ></iframe>
-  </center>
+  
+  <div id="Slogan">week 1 of criss cross puzzle challenge</div>
+  <div id="qlabel">your question:</div>
 </body>
   
 <script>
@@ -213,9 +283,14 @@
           {
           if(data.Back==true){
             //BINGO SCREEN 
-              document.getElementById("SuccessImg").style.display= "block"; 
+//               document.getElementById("SuccessImg").style.display= "block"; 
               stop();
-              alert(data.Reason);
+            $("#qlabel").text("BINGO!");
+            $("#qlabel").css({"color": "#ee3233", "font-size": "250px","left":"100px", "top": "80px"});
+
+            
+              
+//               alert(data.Reason);
          // $("#timer").hide();
           
          // clearInterval(timer);
@@ -287,6 +362,11 @@
   function stop()
   {
 		clearInterval(timer);
+    $( "#test" ).hide();
+    $( "#submit" ).hide();
+    $( "#switch" ).hide();
+    $( "#Question" ).hide();
+//     $( "#qlabel" ).hide();
 	}
   function begintime()
   {
@@ -311,7 +391,7 @@
 			4:'Third phase of design cycle',
 			5:'Architectural representation of a user interface',
 			6:'Relationship between person and object',
-			7:'Physical ornament on object copied from an object when made from another materia',
+			7:'Physical ornament on object copied from an object when made from another material',
 			8:'How many waves are there in paradigms of HCI',
 			9:'Model of a user that helps us think about users',
 			10:'Users normally have three goals life end and ANSWER goals',

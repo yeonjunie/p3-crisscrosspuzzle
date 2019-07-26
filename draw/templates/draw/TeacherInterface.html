@@ -6,6 +6,8 @@
 	<title>PuzzleWord Game</title>
 	<meta http-equiv="content-type" content="text/css/javascript/php; charset=UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet">
+
 <style>
   .RankList
   {
@@ -127,7 +129,7 @@
     right:20px;
     width: 400px;
     height:auto;
-    background-color: #FFB6C1;
+    background-color: #1a546e;
     border-radius: 10px;
     border: 1px solid #e6e6e6;
   }
@@ -137,11 +139,27 @@
     height: 100%;
     padding: 10px 20px;
 }
+  #name, #score{
+    font-size: 20px;
+    font-family: 'Bree Serif', serif;
+    color: white;
+    
+  }
+  #ranking {
+        font-size: 40px;
+    font-family: 'Bree Serif', serif;
+    color: white;
+    padding: 4px 120px;
+  }
 
 
 .RankListIem{
     padding: 10px 20px;
     text-align: center;
+  font-size: 20px;
+    font-family: 'Bree Serif', serif;
+    color: white;
+    
 }
   </style>
 </head>
@@ -179,10 +197,13 @@
 <div id="root" class="root">
 </div>
 <div class="box">
-    <table id = "RankList">
+    <table id = "RankList" >
+      <p id = "ranking">
+        Ranking
+      </p>
         <tr>
-            <th>Name</th>
-            <th>Score</th>
+            <th id = "name">Name</th>
+            <th id ="score">Score</th>
         </tr>
        
     </table>
@@ -226,17 +247,210 @@
 
 </body>
 <script>
-  			// Set Globals
-			// --------------------------------------------
+  
+  
+var url = window.location.href; 
+var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
+
+    socket.onmessage = function(receivedMessage) 
+      {
+      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface')
+        { 
+        var data = JSON.parse(receivedMessage.data);
+        if(data.To=="teacher"){
+        //处理数据balabala  
+        var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
+        var wordOld = $('#'+QuestionString).attr('data-word');
+        var word = wordOld.toLowerCase();//小写
+        var answer =data.Answer.toLowerCase();
+        var studentNNNAAAMMEEE  = data.From;
+        
+        //如果和答案一样
+        //如果没有回答过
+        var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
+        if(!ifanswer){
+        if(answer == word) 
+          {
+			       var across = $('#'+QuestionString).attr('data-across');
+    			   var x = parseInt($('#'+QuestionString).attr('data-x'), 10);
+		    	   var y = parseInt($('#'+QuestionString).attr('data-y'), 10);
+      	  if(across && across != 'false') 
+          {
+				    for(var i = 0; i < answer.length; i++) 
+            {
+					  var newheight = y + i ;
+					  var letterposition = 'letter-position-' + x + '-' + newheight;
+					  $('#' + letterposition).text(answer[i]);
+				    }
+			    } 
+          else 
+          {
+				    for(var i = 0; i < answer.length; i++) 
+            {
+					  var newwidth = x + i ;
+					  var letterposition = 'letter-position-' + newwidth + '-' + y;
+					  $('#' + letterposition).text(answer[i]);
+				    }
+			    }
+			  $('#' + answer + '-listing').addClass('strikeout');
+			  $('#' + answer + '-listing').attr('data-solved', true);	
+  			$('#answer-form').hide();
+        //如果符合了就添加进表格
+        addrankList(data.From,data.Time);
+        //排序
+        sortTable(true);
+        console.log(studentNNNAAAMMEEE);
+		    var informationback = 
+                {
+                  From:'teacher',
+                  To:studentNNNAAAMMEEE,
+                  Back:true,
+                  Reason:'Answer is true'
+                }
+         var informationJSON = JSON.stringify(informationback);
+            socket.send(informationJSON);
+          } 
+        else 
+        {
+           var informationback = 
+                {
+                  From:'teacher',
+                  To:studentNNNAAAMMEEE,
+                  Back:false,
+                  Reason:'Answer is not true'
+                }
+         var informationJSON = JSON.stringify(informationback);
+          socket.send(informationJSON);
+          socket.send("");
+		    }
+        }
+          else
+          {
+            var informationback = 
+                {
+                  From:'teacher',
+                  To:studentNNNAAAMMEEE,
+                  Back:false,
+                  Reason:'Answer has been answered'
+                }
+         var informationJSON = JSON.stringify(informationback);
+            socket.send(informationJSON);
+          }
+      }
+        
+        if(data.To=="server")
+        {
+          var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
+          var wordOld = $('#'+QuestionString).attr('data-word');
+          var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
+          var studentNNNAAAMMEEEEEEE  = data.From;
+          console.log(ifanswer);
+          if(ifanswer=='true')
+           {
+            
+             //alert("question is answered");
+            var backResult=
+            {
+              From:'server',
+              To:studentNNNAAAMMEEEEEEE,
+              Result:false,
+            }
+            
+            var informationJSONsss = JSON.stringify(backResult);
+            socket.send(informationJSONsss);
+          } else {
+            var backResult=
+            {
+              
+              From:'server',
+              To:studentNNNAAAMMEEEEEEE,
+              Result:true,
+            }
+            
+            var informationJSONsss = JSON.stringify(backResult);
+            socket.send(informationJSONsss);
+          }
+          
+        }
+        }
+    };
+  
+    socket.onopen = function(event)
+      {
+      }
+        
+    // notify console if socket closes unexpectedly
+    socket.onclose = function(e) 
+      {
+      console.error('Chat socket closed unexpectedly');
+      };
+  
+  //for ranking list
+  function addrankList(name,score)
+  {
+    let table=document.querySelector('tbody');
+            let newTr=document.createElement('tr');
+            newTr.innerHTML=`
+            <td class="RankListIem">`+name+`</td>
+            <td class="RankListIem">`+score+`</td>
+            `;
+            table.insertBefore(newTr,table.children[1]);
+        
+  }
+
+  
+  function getValues(){
+    var tab = document.getElementById("RankList");
+    var arr = new Array();
+    for(var i=1;i<tab.rows.length;i++){
+        var temp = new Array();
+        temp[0] = tab.rows[i].children[0].innerHTML;
+        console.log(temp[0]);
+        temp[1] = parseInt(tab.rows[i].children[1].innerHTML);
+        console.log(temp[1]);
+        arr[i-1] = temp;
+        console.log(arr);
+    }
+    return arr;
+}
+
+function sortArray(flag){
+    arr = getValues();
+    for(var i=1;i<arr.length;i++){
+        for(var j=0;j<i;j++){
+            if(flag){
+                if(arr[i][1]<arr[j][1]){
+                    var temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }else{
+                if(arr[i][1]>arr[j][1]){
+                    var temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+    }
+    return arr;
+}
+
+function sortTable(flag){
+    var arr = sortArray(flag);
+    var tab = document.getElementById("RankList");
+    for(var i=0;i<arr.length;i++){
+        tab.rows[i+1].children[0].innerHTML = arr[i][0];
+        tab.rows[i+1].children[1].innerHTML = arr[i][1];
+    }
+}
+
 var crosswordclues = [];
-			// Set Randomization Configs
-			// --------------------------------------------
-//用于表示游戏的结束，方便debug
+
 function areWeInGodMode() {
 	return false;
 	return true;
 }
-//这几个random都是用来增加随机度，可以全部设置成false，他就不会变化了
 function areWeRandomizingPuzzleWords() {
 	return true;
 }
@@ -252,10 +466,8 @@ function areWeRandomizingAcrossDownChoices() {
 function areWeRandomizingAcrossDownLists() {
 	return true;
 }
-//结束随机方法的地方
   
-			// Main()
-			// --------------------------------------------
+	
 
 function crosswordPuzzle(puzzlewords) {
 	var wordcount = puzzlewords.length;
@@ -263,12 +475,10 @@ function crosswordPuzzle(puzzlewords) {
 	if(!puzzlewords || !wordcount) {
 		console.log("Developer Error : Did you forget to load words?");
 		return false;
-    //判断是否符合生成条件
 	}
 	
 	if(areWeRandomizingPuzzleWords()) {
 		puzzlewords = shuffle(puzzlewords);
-    //混淆函数因为要调整顺序
 	}
 	
 	var crosswords = generateCrosswordBlockSources(puzzlewords);
@@ -295,15 +505,13 @@ function crosswordPuzzle(puzzlewords) {
 	showCrossWordOptions();
 	return true;
 }
-//核心方法用来接收一list的puzzlewords 并且展示他们
-			// User Form Actions
-			// --------------------------------------------
-//展示crossword的表格和其列表
+
+  
 function showCrossWordOptions() {
 	var solvefunction = function() {
 		$('#solution-answer').val('');//set the  value  of value 
 		$('#answer-results').hide();//hide it
-		$('#answer-results').html('');//html() 方法返回或设置被选元素的内容 (inner HTML)。
+		$('#answer-results').html('');//html() 
 		
 		var word = $(this).attr('data-word');
 		var acrosstext = $(this).attr('data-across') == 'false' ? 'Down' : 'Across';
@@ -347,7 +555,6 @@ function showCrossWordOptions() {
 		
 		return false;
 	}
-	//选定了某个across 或者downlist
 	var closesolvefunction = function() {
 		$('#answer-results').hide();
 		$('#answer-form').hide();
@@ -358,8 +565,7 @@ function showCrossWordOptions() {
 	var answerfunction = function() {
 		var word = $(this).attr('data-word');
 		var answer = $('#solution-answer').val().toLowerCase();
-		//获得点击事件的东东
-    //如果一样就去puzzlegmae上画线
+
 		if(answer == word) {
 			var across = $(this).attr('data-across');
 			var x = parseInt($(this).attr('data-x'), 10);//获得x
@@ -391,7 +597,7 @@ function showCrossWordOptions() {
 		}
 		return false;
 	}
-	//自曝答案
+
 	var revealanswerfunction = function() {
 		var word = $(this).attr('data-word');
 		var across = $(this).attr('data-across');
@@ -430,9 +636,9 @@ function showCrossWordOptions() {
 
 function showCrossWordLists(wordlists, clues) {
 	var acrosslist = wordlists['across'];
-  //获取所有wordlist啥的东东
+
 	var downlist = wordlists['down'];
-	//获取所有down的单词？
+
 	if(areWeRandomizingAcrossDownLists()) {
 		acrosslist = shuffle(acrosslist);
 		downlist = shuffle(downlist);
@@ -460,7 +666,6 @@ function getViewableCrossWordList(listitems, clues, across) {//set their attribu
     element += (clue.replace(/\s*/g,'')).toLocaleLowerCase();
     element +='"';
 		element += 'data-word="' + word.replace(/"/g, '&quot;') + '" ';
-    //means that " 在全局中替换成在html里是“＂”（引号），用法：& quot；（去掉&后的空格）引号的问题处理，细节！！！！！
 		element += 'data-clue="' + clue.replace(/"/g, '&quot;') + '" ';
 		element += 'data-x="' + coordinates[0] + '" ';
 		element += 'data-y="' + coordinates[1] + '" ';
@@ -1492,201 +1697,6 @@ function Trim(str)
      return str.replace(/(^\s*)|(\s*$)/g, ""); 
    }
 
-var url = window.location.href; 
-var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
-
-    socket.onmessage = function(receivedMessage) 
-      {
-      if(url == 'https://p3-websockets-tlhhwk-hwke19895462.codeanyapp.com/draw/teacherinterface')
-        { 
-        var data = JSON.parse(receivedMessage.data);
-        if(data.To=="teacher"){
-        //处理数据balabala  
-        var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
-        var wordOld = $('#'+QuestionString).attr('data-word');
-        var word = wordOld.toLowerCase();//小写
-        var answer =data.Answer.toLowerCase();
-        var studentNNNAAAMMEEE  = data.From;
-        
-        //如果和答案一样
-        //如果没有回答过
-        var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
-        if(!ifanswer){
-        if(answer == word) 
-          {
-			       var across = $('#'+QuestionString).attr('data-across');
-    			   var x = parseInt($('#'+QuestionString).attr('data-x'), 10);
-		    	   var y = parseInt($('#'+QuestionString).attr('data-y'), 10);
-      	  if(across && across != 'false') 
-          {
-				    for(var i = 0; i < answer.length; i++) 
-            {
-					  var newheight = y + i ;
-					  var letterposition = 'letter-position-' + x + '-' + newheight;
-					  $('#' + letterposition).text(answer[i]);
-				    }
-			    } 
-          else 
-          {
-				    for(var i = 0; i < answer.length; i++) 
-            {
-					  var newwidth = x + i ;
-					  var letterposition = 'letter-position-' + newwidth + '-' + y;
-					  $('#' + letterposition).text(answer[i]);
-				    }
-			    }
-			  $('#' + answer + '-listing').addClass('strikeout');
-			  $('#' + answer + '-listing').attr('data-solved', true);	
-  			$('#answer-form').hide();
-        //如果符合了就添加进表格
-        addrankList(data.From,data.Time);
-        //排序
-        sortTable(true);
-        console.log(studentNNNAAAMMEEE);
-		    var informationback = 
-                {
-                  From:'teacher',
-                  To:studentNNNAAAMMEEE,
-                  Back:true,
-                  Reason:'Answer is true'
-                }
-         var informationJSON = JSON.stringify(informationback);
-            socket.send(informationJSON);
-          } 
-        else 
-        {
-           var informationback = 
-                {
-                  From:'teacher',
-                  To:studentNNNAAAMMEEE,
-                  Back:false,
-                  Reason:'Answer is not true'
-                }
-         var informationJSON = JSON.stringify(informationback);
-          socket.send(informationJSON);
-          socket.send("");
-		    }
-        }
-          else
-          {
-            var informationback = 
-                {
-                  From:'teacher',
-                  To:studentNNNAAAMMEEE,
-                  Back:false,
-                  Reason:'Answer has been answered'
-                }
-         var informationJSON = JSON.stringify(informationback);
-            socket.send(informationJSON);
-          }
-      }
-        
-        if(data.To=="server")
-        {
-          var QuestionString = (data.Question.replace(/\s*/g,'')).toLowerCase();
-          var wordOld = $('#'+QuestionString).attr('data-word');
-          var ifanswer = $('#'+wordOld+'-listing').attr("data-solved");
-          var studentNNNAAAMMEEEEEEE  = data.From;
-          console.log(ifanswer);
-          if(ifanswer=='true')
-           {
-            
-             //alert("question is answered");
-            var backResult=
-            {
-              From:'server',
-              To:studentNNNAAAMMEEEEEEE,
-              Result:false,
-            }
-            
-            var informationJSONsss = JSON.stringify(backResult);
-            socket.send(informationJSONsss);
-          } else {
-            var backResult=
-            {
-              
-              From:'server',
-              To:studentNNNAAAMMEEEEEEE,
-              Result:true,
-            }
-            
-            var informationJSONsss = JSON.stringify(backResult);
-            socket.send(informationJSONsss);
-          }
-          
-        }
-        }
-    };
-  
-    socket.onopen = function(event)
-      {
-      }
-        
-    // notify console if socket closes unexpectedly
-    socket.onclose = function(e) 
-      {
-      console.error('Chat socket closed unexpectedly');
-      };
-  
-  //for ranking list
-  function addrankList(name,score)
-  {
-    let table=document.querySelector('tbody');
-            let newTr=document.createElement('tr');
-            newTr.innerHTML=`
-            <td class="RankListIem">`+name+`</td>
-            <td class="RankListIem">`+score+`</td>
-            `;
-            table.insertBefore(newTr,table.children[1]);
-        
-  }
-
-  
-  function getValues(){
-    var tab = document.getElementById("RankList");
-    var arr = new Array();
-    for(var i=1;i<tab.rows.length;i++){
-        var temp = new Array();
-        temp[0] = tab.rows[i].children[0].innerHTML;
-        console.log(temp[0]);
-        temp[1] = parseInt(tab.rows[i].children[1].innerHTML);
-        console.log(temp[1]);
-        arr[i-1] = temp;
-        console.log(arr);
-    }
-    return arr;
-}
-
-function sortArray(flag){
-    arr = getValues();
-    for(var i=1;i<arr.length;i++){
-        for(var j=0;j<i;j++){
-            if(flag){
-                if(arr[i][1]<arr[j][1]){
-                    var temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }else{
-                if(arr[i][1]>arr[j][1]){
-                    var temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        }
-    }
-    return arr;
-}
-
-function sortTable(flag){
-    var arr = sortArray(flag);
-    var tab = document.getElementById("RankList");
-    for(var i=0;i<arr.length;i++){
-        tab.rows[i+1].children[0].innerHTML = arr[i][0];
-        tab.rows[i+1].children[1].innerHTML = arr[i][1];
-    }
-}
     
   </script> 
 </html>
