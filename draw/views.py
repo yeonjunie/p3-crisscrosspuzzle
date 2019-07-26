@@ -15,3 +15,6 @@ def StudentInterface(request):
   
 def TeacherInterface(request):
     return render(request,'draw/TeacherInterface.html',{})
+  
+def Success(request):
+    return render(request,'draw/Success.html',{})

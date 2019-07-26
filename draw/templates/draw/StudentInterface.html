@@ -107,7 +107,19 @@
 	right:50px;
 	font-size:38px;
 }
-
+      body
+      {
+        position:relative;
+      }
+      iframe
+      {
+        
+        position:absolute;
+        top:350px;
+        width:100%;
+/*         width=fixed; */
+        display:none;
+      }
 
     </style>
 
@@ -123,7 +135,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <input id="NameBox" class="NameBox" value="" placeholder="your name"/>
+        <input id="NameBox" class="NameBox" value="" placeholder="first and last name"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="begintime()">Close</button>
@@ -131,7 +143,7 @@
     </div>
   </div>
 </div>
-  
+      
 <!--   <div class = "name"><label>Your name:</label><input id="NameBox" class="NameBox" value="" placeholder="Input Your name!"/></div>
    -->
   <div class = "Title" id ="Question"></div>
@@ -148,6 +160,10 @@
     <button class="SubmitButton"  onClick = "fun()">Submit</button>
     <button class="HelpButton" onClick = "switchQ()">Switch</button>
   </div>
+  <center>
+ 
+      <iframe id="SuccessImg" z-index = 7  frameborder="0" scrolling="no" src="success"   ></iframe>
+  </center>
 </body>
   
 <script>
@@ -196,23 +212,20 @@
           if(data.To==StudentNamehh.value)
           {
           if(data.Back==true){
-          alert(data.Reason);
+            //BINGO SCREEN 
+              document.getElementById("SuccessImg").style.display= "block"; 
+              stop();
+              alert(data.Reason);
          // $("#timer").hide();
-          stop();
+          
          // clearInterval(timer);
         }
           else if (data.Back==false)
           {
             alert(data.Reason);  
-          }
+          } 
           
-            
-            
-          
-            
-            
-            
-          }
+      }
           
           
       }
@@ -258,7 +271,6 @@
   }
   
   window.onload = function(){
-    
     $('#my-modal').modal('show');
     var height = $(window).height() - 200;
 
@@ -267,13 +279,15 @@
     QuestionString.innerText=dic[currq];
    		
 
-    function stop()
+   
+}
+   
+  var second=null;
+  var timer = null;
+  function stop()
   {
 		clearInterval(timer);
 	}
-}
-  var second=null;
-  var timer = null
   function begintime()
   {
     second = document.getElementById("second");

@@ -19,7 +19,6 @@
     <canvas id="myCanvas" width="750px" height="750px"></canvas>
 </body>
 <script>
-
     // setting up the canvas and one paper tool
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
@@ -73,9 +72,7 @@
         }
     // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
-
     var socket = new WebSocket('wss://p3-websockets-TLHHWK-hwke19895462.codeanyapp.com/ws/draw');
-
     socket.onmessage = function(receivedMessage) 
       {
       //for 1-c task
@@ -139,6 +136,5 @@
    context.strokeStyle = randomcolor;
    }
  });
-
 </script>
 </html>
