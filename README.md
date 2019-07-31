@@ -9,32 +9,16 @@
   
 <img width="430" alt="Screen Shot 2019-07-26 at 03 36 05" src="https://user-images.githubusercontent.com/37316449/62194954-c1563d00-b32f-11e9-9cbb-7505fd39a1b0.png"/>
  </p>
-<div class="row">
-  <div class="column">
-    <img class = "one" width="430" alt="Screen Shot 2019-07-26 at 03 35 48" src="https://user-images.githubusercontent.com/37316449/62194894-9f5cba80-b32f-11e9-97a6-a2135b0c4d33.png"/>
-    
-  <div class="column">
-<img width="430" alt="Screen Shot 2019-07-26 at 03 36 05" src="https://user-images.githubusercontent.com/37316449/62194954-c1563d00-b32f-11e9-9cbb-7505fd39a1b0.png"/>
-    </div>
 
-</div>
-<div class="row">
-  <div class="column">
+<p>
 <img width="430" alt="Screen Shot 2019-07-26 at 03 36 14" src="https://user-images.githubusercontent.com/37316449/62194957-c5825a80-b32f-11e9-9c27-c144db85f679.png"/>    
-  <div class="column">
 <img width="430" alt="Screen Shot 2019-07-26 at 03 36 22" src="https://user-images.githubusercontent.com/37316449/62194959-c87d4b00-b32f-11e9-83a6-ddf280731606.png"/>
-    </div>
+</p>
 
-</div>
-
-<div class="row">
-  <div class="column">
+<p>
 <img width="430" alt="Screen Shot 2019-07-26 at 03 36 30" src="https://user-images.githubusercontent.com/37316449/62194965-cdda9580-b32f-11e9-9b5b-b361c98a854d.png"/>    
-  <div class="column">
     <img width="430" alt="Screen Shot 2019-07-26 at 03 36 39" src="https://user-images.githubusercontent.com/37316449/62194978-d4690d00-b32f-11e9-8ad8-f2d1f4749759.png"/>
-    </div>
-
-</div>
+</p>
 <img width="860" alt="Screen Shot 2019-07-26 at 03 38 06" src="https://user-images.githubusercontent.com/37316449/62194994-df23a200-b32f-11e9-913a-f684c66d30e2.png">
 
 <br>
