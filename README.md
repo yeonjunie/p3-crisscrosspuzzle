@@ -3,12 +3,18 @@
 <b>Description:</b> Built interfaces with cross-device communication via websockets in conjuction with a large, shared display and mobile esture recognition. <br>
 
 
+<p float="left">
+  <img class = "one" width="430" alt="Screen Shot 2019-07-26 at 03 35 48" src="https://user-images.githubusercontent.com/37316449/62194894-9f5cba80-b32f-11e9-97a6-a2135b0c4d33.png"/>
+    
+  
+<img width="430" alt="Screen Shot 2019-07-26 at 03 36 05" src="https://user-images.githubusercontent.com/37316449/62194954-c1563d00-b32f-11e9-9cbb-7505fd39a1b0.png"/>
+ </p>
 <div class="row">
   <div class="column">
-    <img class = "one" width="400" alt="Screen Shot 2019-07-26 at 03 35 48" src="https://user-images.githubusercontent.com/37316449/62194894-9f5cba80-b32f-11e9-97a6-a2135b0c4d33.png">
+    <img class = "one" width="430" alt="Screen Shot 2019-07-26 at 03 35 48" src="https://user-images.githubusercontent.com/37316449/62194894-9f5cba80-b32f-11e9-97a6-a2135b0c4d33.png">
     
   <div class="column">
-<img width="400" alt="Screen Shot 2019-07-26 at 03 36 05" src="https://user-images.githubusercontent.com/37316449/62194954-c1563d00-b32f-11e9-9cbb-7505fd39a1b0.png">
+<img width="430" alt="Screen Shot 2019-07-26 at 03 36 05" src="https://user-images.githubusercontent.com/37316449/62194954-c1563d00-b32f-11e9-9cbb-7505fd39a1b0.png">
     </div>
 
 </div>
